@@ -1,0 +1,12 @@
+{
+  "exclude": ["node_modules", "src"],
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "removeComments": false,
+    "declaration": true,
+    "target": "ES5",
+    "module": "CommonJS",
+    "outDir": "./dist"
+  },
+  "include": ["./index.ts"]
+}
