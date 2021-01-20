@@ -12,9 +12,8 @@ afterEach(() => {
 
 test("Basic sequential call.", async () => {
 
-  const callOrder = [];
-
-  let promises = [];
+  const callOrder: any[] = [];
+  let promises: Promise<any>[] = [];
 
   const expectedCallTime1 = Date.now() + 100;
   let p1 = new Promise(resolve => {
@@ -61,8 +60,8 @@ describe("Test timeout pause.", () => {
 
   test("Test timeout pause with pause-adjusted expiration time.", async () => {
 
-    const callOrder = [];
-    let promises = [];
+    const callOrder: any[] = [];
+    let promises: Promise<any>[] = [];
 
     let t1: Timeout;
     let p1 = new Promise(resolve => {
@@ -125,8 +124,8 @@ describe("Test timeout pause.", () => {
 
   test("Test timeout pause without pause-adjusted expiration time.", async () => {
 
-    const callOrder = [];
-    let promises = [];
+    const callOrder: any[] = [];
+    let promises: Promise<any>[] = [];
 
     let t1: Timeout;
     let p1 = new Promise(resolve => {
@@ -182,8 +181,9 @@ describe("Test timeout pause.", () => {
   });
 
   test("Test pause timeout by key.", async () => {
-    const callOrder = [];
-    let promises = [];
+
+    const callOrder: any[] = [];
+    let promises: Promise<any>[] = [];
 
     let t1: Timeout;
     let p1 = new Promise(resolve => {
@@ -257,7 +257,8 @@ describe("Test timeout pause.", () => {
   });
 
   test("Test pause timeout, overriding options.ignorePauseDelay.", async () => {
-    const callOrder = [];
+    const callOrder: any[] = [];
+
     let t1: Timeout;
     let p1 = new Promise(resolve => {
       t1 = scheduler.add(() => {
@@ -380,7 +381,7 @@ test("Test recurring", async () => {
 });
 
 test("Test same key", async () => {
-  let calls = [];
+  let callOrder: any[] = [];
   let t1: Timeout;
 
   const promises = [];
@@ -388,14 +389,14 @@ test("Test same key", async () => {
   const p1 = new Promise(resolve => {
     const opts = {timeMillis: 500, key: "one", overwriteKey: true};
     t1 = scheduler.add(() => {
-      calls.push("1");
+      callOrder.push("1");
       // should not be called.
       resolve(null);
     }, opts);
     // before first ends should add this second timeout, overwriting and increasing the timeout by about another 250ms
     setTimeout(() => {
       scheduler.add(() => {
-        calls.push("2");
+        callOrder.push("2");
         resolve(null);
       }, opts)
     }, 250);
@@ -405,14 +406,14 @@ test("Test same key", async () => {
   const p2 = new Promise(resolve => {
     setTimeout(() => {
       // nothing should have been called until about 750ms have passed
-      expect(calls.length).toBe(0);
+      expect(callOrder.length).toBe(0);
       resolve(null);
     }, 600);
   });
   promises.push(p2);
 
   await Promise.all(promises);
-  expect(calls).toEqual(["2"]);
+  expect(callOrder).toEqual(["2"]);
 });
 
 test("Test timeout cancellation.", async () => {
